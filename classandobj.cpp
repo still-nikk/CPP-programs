@@ -46,7 +46,7 @@ class student{
 
 int main(){
     student a("Nikunj",19,1);
-    student b("Priyanka",19,0);
+    student b("Neha",19,0);
     // a.printinfo();
     // b.printinfo();
     student c;

@@ -179,6 +179,7 @@ struct node{
     struct node *next;
 };
 struct node*head = NULL;
+struct node* head2 = NULL;
 struct node*current = NULL;
 
 void printlist(){
@@ -197,6 +198,16 @@ void revlist(struct node*head){
     }
     revlist(head->next);
     cout<<head->data<<"  ";
+}
+
+int traverse(int pos){
+    struct node* temp = head;
+    int count = 1;
+    while(temp -> next != NULL && count != pos){
+        temp = temp -> next;
+        count++;
+    }
+    return temp -> data;
 }
 
 void insertatbegin(int data){
@@ -299,7 +310,15 @@ void deleteatposition(int position) {
     free(p);
 }
 
-
+void sort(int size){
+    for(int i = 0 ; i < size ; i++){
+        for(int j = 0 ; j < size - 1 ; j++){
+            struct node* newNode = (struct node *)malloc(sizeof(struct node));
+            struct node* newNode2 = (struct node *)malloc(sizeof(struct node));
+            
+        }
+    }
+}
 
 int main(){
     int k = 0;
@@ -318,6 +337,7 @@ int main(){
     cout<<"Reversed list: "<<endl;
     cout<<"[  ";
     revlist(head);
-    cout<<"]";
+    cout<<"]"<<endl;
+    cout<<"The value at 2 is "<<traverse(2)<<endl;
     return 0;
 }

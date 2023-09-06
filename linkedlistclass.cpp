@@ -6,128 +6,130 @@ class node{
     int data;
     node* next;
 
-    node(int val){
+    node(int val)
+    {
         data = val;
         next = NULL;
     }
 };
 
-void traverse(node* head, int pos){
+void insertatbegin(node* &head, int val)
+{
+    node* temp = new node(val);
+    temp -> next = head;
+    head = temp;
+}
+
+void insertatend(node* &head, int val)
+{
+    if(head == NULL || head->next == NULL)
+    {
+        return insertatbegin(head,val);
+    }
+    node* newnode = new node(val);
     node* temp = head;
+    while(temp -> next != NULL)
+    {
+        temp = temp -> next;
+    }
+    temp -> next = newnode;
+}
+
+void insertatpos(node* &head, int pos , int val)
+{
+    if(pos == 0 || pos < 0)
+    {
+        cout<<"Invalid position"<<endl;
+    }
+    pos--;
     int count = 1;
-    while(temp -> next != NULL && count != pos){
-        temp = temp -> next;
+    node* temp = head;
+    node* newnode = new node(val);
+    while(temp -> next != NULL && count != pos)
+    {
         count++;
-    }
-    if(count < 0){
-        cout<<"Invalid Input"<<endl;
-    }
-    else{
-        cout<<"The value at "<<pos<<" is "<<temp -> data<<endl;
-    }
-}
-
-void insertatend(node* &head, int val){
-    node* n = new node(val);
-    if(head == NULL){
-        head = n;
-        return;
-    }
-    node* temp = head;
-    while(temp -> next != NULL){
         temp = temp -> next;
     }
-    temp -> next = n;
+    newnode -> next = temp -> next;
+    temp -> next = newnode;
 }
 
-void insertatbegin(node* &head, int val){
-    node* n = new node(val);
-    n -> next = head;
-    head = n;
-}
-
-void insertatposition(node* head, int val, int position){
-    position--;
-    if (position < 0) {
-        cout << "Invalid position." << endl;
+void deletebegin(node* &head)
+{
+    if(head == NULL)
+    {
+        cout << "Empty List" << endl;
         return;
     }
-    node* newNode = new node(val);
-    if (position == 0 || head == NULL) {
-        newNode->next = head;
-        head = newNode;
-        return;
-    }
-    node *p = head;
-    for (int i = 0; i < position - 1 && p != NULL; ++i) {
-        p = p->next;
-    }
-    if (p == NULL) {
-        cout << "Position out of range." << endl;
-        return;
-    }
-    newNode->next = p->next;
-    p->next = newNode;
-}
-
-
-void deletebegin(node* &head){
     node* temp = head;
-    if(temp == NULL){
-        cout << "The list is already empty!" << endl;
-        return;
-    }
     head = temp -> next;
     free(temp);
 }
 
-void deleteend(node* &head){
-    node* temp = head;
-    if(temp == NULL){
-        cout << "The list is empty!" << endl;
+void deleteend(node* &head)
+{
+    if(head == NULL)
+    {
+        cout << "Empty List" << endl;
         return;
     }
-    while(temp -> next -> next != NULL){
-        temp = temp->next;
-    }
-    free(temp -> next);
-    temp -> next = NULL;
-}
-
-void deletevalue(node* &head, int val){
     node* temp = head;
-    while(temp -> next -> data != val){
-        temp = temp -> next;
-    }
-    node* del = temp -> next;
-    temp -> next = temp -> next -> next; //we could also use del -> next instead of temp -> next -> next;
-    free(del); //We could also use delete() here instead of free();
-}
-
-void display(node* head){
-    node* temp = head;
-    while(temp != NULL){
-        cout<<temp->data<<"->";
-        temp = temp -> next;
-    }
-    cout<<"NULL"<<endl;
-}
-
-void iterativereverse(node* &head)
-{
-    node* prev = NULL;
-    node* curr = head;
-    node* nextpt;
-
-    while(curr != NULL)
+    while(temp -> next -> next != NULL)
     {
-        nextpt = curr -> next;
-        curr -> next = prev;
-
-        prev = curr;
-        curr = nextpt;
+        temp = temp -> next;
     }
-    head = prev;
+    temp -> next = NULL;
+    free(temp -> next);
+}
+
+void deleteatpos(node* &head,int pos)
+{   
+    if(pos == 0 || pos < 0)
+    {
+        cout << "Invalid Input" << endl;
+        return;
+    }
+    if(pos == 1)
+    {
+        return deletebegin(head);
+    }
+    pos--;
+    int count = 1;
+    node* temp = head;
+    while(temp -> next != NULL && count != pos)
+    {
+        count++;
+        temp = temp -> next;
+    }
+    temp -> next = temp -> next -> next;
+    free(temp -> next);
+}
+
+void display(node* head)
+{
+    node* temp = head;
+    cout << "[ ";
+    while(temp != NULL)
+    {
+        cout << temp -> data << " -> ";
+        temp = temp -> next; 
+    }
+    cout << "NULL ]"<<endl;
+}
+
+void reverse(node* &head)
+{
+    node* prevpt = NULL;
+    node* currpt = head;
+    node* nextpt;
+    while(currpt != NULL)
+    {
+        nextpt = currpt -> next;
+        currpt -> next = prevpt;
+        prevpt = currpt;
+        currpt = nextpt;
+    }
+    head = prevpt;
 }
 
 node* recursivereverse(node* &head) //I do not get it..?
@@ -137,39 +139,116 @@ node* recursivereverse(node* &head) //I do not get it..?
         return head;
     }
     
-    node* newnode = recursivereverse(head -> next);
+    node* newhead = recursivereverse(head -> next);
     head -> next -> next = head;
     head -> next = NULL;
 
-    return newnode;
+    return newhead;
 }
 
-void sortlist(node* head, int size)
+void merge(node* &head, node* &head2)
 {
-    for(int i = 0; i < size; i++)
+    node* temp1 = head;
+    node* temp2 = head2;
+    while(temp1 -> next != NULL)
     {
-        for(int j = 0; j < size - 1; j++)
-        {
+        temp1 = temp1 -> next;
+    }
+    temp1 -> next = head2;
+}
 
+void searchelem(node* &head, int val)
+{
+    int count = 1;
+    int c = 0;
+    node* temp = head;
+    while(temp -> next != NULL && temp -> data != val)
+    {
+        // if(temp -> data == val)
+        // {
+        //     c++;
+        // }
+        temp = temp -> next;
+        count++;
+    }
+    if(temp -> data != val)
+    {
+        cout << "The searched element was not foung!" << endl;
+    }
+    else
+    {
+        cout << val<<" was found at position "<<count<<endl;
+    }
+}
+
+void bubbleSortDescending(node* &head)
+{
+    if (head == NULL || head->next == NULL)
+    {
+        // Nothing to sort for an empty list or a list with a single element
+        return;
+    }
+
+    bool swapped;
+    node* temp;
+    node* end = NULL;
+
+    while (true)
+    {
+        swapped = false;
+        temp = head;
+
+        while (temp->next != end)
+        {
+            if (temp->data < temp->next->data)
+            {
+                // Swap data values of adjacent nodes
+                int tempData = temp->data;
+                temp->data = temp->next->data;
+                temp->next->data = tempData;
+                swapped = true;
+            }
+            temp = temp->next;
         }
+
+        if (!swapped)
+        {
+            // If no elements were swapped in this pass, the list is sorted
+            break;
+        }
+
+        end = temp; // Mark the last swapped node as the new end
     }
 }
 
 int main(){
     node* head = NULL;
-    insertatend(head,1);
-    insertatend(head,3);
+    insertatbegin(head,1);
     insertatbegin(head,0);
-    insertatposition(head,2,3);
+    insertatend(head,3);
+    insertatpos(head,3,2);
     display(head);
-    iterativereverse(head);
+    reverse(head);
     display(head);
-    traverse(head,2);
-    // deletevalue(head,2);
+    reverse(head);
+    display(head);
+    searchelem(head,2);
+    bubbleSortDescending(head);
+    display(head);
+    // deletebegin(head);
     // display(head);
     // deleteend(head);
     // display(head);
-    node* newhead = recursivereverse(head); // this bs works but how...?
-    display(newhead);
+    // deleteatpos(head,2);
+    // display(head);
+    node* head2 = NULL;
+    insertatbegin(head2,5);
+    insertatbegin(head2,4);
+    insertatend(head2,7);
+    insertatpos(head2,3,6);
+    display(head2);
+    merge(head,head2);
+    display(head);
+    display(head2);
     return 0;
 }

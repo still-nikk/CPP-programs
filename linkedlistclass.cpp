@@ -1,7 +1,8 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-class node{
+class node
+{
     public:
     int data;
     node* next;
@@ -221,7 +222,8 @@ void bubbleSortDescending(node* &head)
     }
 }
 
-int main(){
+int main()
+{
     node* head = NULL;
     insertatbegin(head,1);
     insertatbegin(head,0);

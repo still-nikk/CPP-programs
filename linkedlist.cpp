@@ -192,7 +192,7 @@ void printlist(){
     cout<<"]";
 }
 
-void revlist(struct node*head){
+void revlist(struct node*head){ // ye to cheating hai bhai xD, This function only prints the value in reverse it does not reverse the elements in a linked list.
     if(head == NULL){
         return;
     }

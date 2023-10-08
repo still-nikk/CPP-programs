@@ -12,6 +12,13 @@ class node
     {
         data = val;
     }
+
+    node()
+    {
+        int data;
+        node* left;
+        node* right;
+    }
 };
 
 class bst
@@ -84,15 +91,48 @@ void postorder(node* &root)
     }
 }
 
-void bfstrav(node* &root)
+void searchkey(node* root,int key)
 {
     if(root == NULL)
     {
         return;
     }
-    cout<<root->data;
-    bfstrav(root->left);
+
+    if(root->data == key)
+    {
+        cout << "Key element was found";
+        return;
+    }
+    searchkey(root->left,key);
+    searchkey(root->right,key);
+    // // inorder(root);
+    // if(key < root -> data)
+    // {
+    //     if(key == root -> data)
+    //     {
+    //         return;
+    //     }
+    //     root = root -> left;
+    // }
+    // else if (key > root -> data)
+    // {
+    //     if(key == root -> data)
+    //     {
+    //         return;
+    //     }
+    //     root = root -> right;
+    // }
 }
+
+// void bfstrav(node* &root)
+// {
+//     if(root == NULL)
+//     {
+//         return;
+//     }
+//     cout<<root->data;
+//     bfstrav(root->left);
+// }
 
 int main()
 {
@@ -113,6 +153,9 @@ int main()
     cout<<endl<<"Postorder Traversal:"<<endl;
     postorder(rootnode);
     // cout<<endl<<"Descending order: "<<endl;
-    //descendinginorder(rootnode);
+    // //descendinginorder(rootnode);
+    // cout <<endl<< "BFS traversal: "<<endl;
+    cout << endl;
+    searchkey(rootnode,5);
     return 0;
 }

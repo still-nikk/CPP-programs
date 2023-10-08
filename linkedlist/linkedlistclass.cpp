@@ -23,7 +23,7 @@ void insertatbegin(node* &head, int val)
 
 void insertatend(node* &head, int val)
 {
-    if(head == NULL || head->next == NULL)
+    if(head == NULL)
     {
         return insertatbegin(head,val);
     }

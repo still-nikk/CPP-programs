@@ -5,7 +5,8 @@ int iterativebs(int arr[], int l, int h, int key){
     while (l<=h)
     {
         int m = (l+h)/2;
-        if(arr[m]==key){
+        if(arr[m]==key)
+        {
             return m+1;
         }
         if(arr[m]<key){

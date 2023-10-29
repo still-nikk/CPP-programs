@@ -47,11 +47,7 @@ class employee : abstractedemployee
     }
 
     employee(string name, string company , int age)
-    {
-        Name = name;
-        Company = company;
-        Age = age;
-    }
+    : Name(name), Company(company), Age(age) {}
 
     employee(employee &ex)
     {
